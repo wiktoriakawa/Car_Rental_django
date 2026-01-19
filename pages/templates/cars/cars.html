@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<!-- Sub banner start -->
+<div class="sub-banner overview-bgi">
+    <div class="container breadcrumb-area">
+        <div class="breadcrumb-areas">
+            <h1>Nasza Flota</h1>
+        </div>
+    </div>
+</div>
+<!-- Sub Banner end -->
+
+<!-- Featured car start -->
+<div class="featured-car content-area">
+    <div class="container">
+        <div class="row">
+            
+            <!-- LEWA STRONA: LISTA SAMOCHODÓW -->
+            <div class="col-lg-8 col-md-12">
+                <div class="row">
+                    {% for car in cars %}
+                    <!-- Używamy col-md-6, żeby były dwa auta w rzędzie obok sidebara -->
+                    <div class="col-lg-6 col-md-6"> 
+                        <div class="car-box reveal">
+                            <div class="car-thumbnail">
+                                <a href="{{ car.get_absolute_url }}" class="car-img">
+                                    {% if car.image %}
+                                        <img src="{{ car.image.url }}" alt="{{ car.car_title }}">
+                                    {% else %}
+                                        <img src="{% static 'img/default-car.jpg' %}" alt="brak zdjęcia">
+                                    {% endif %}
+                                </a>
+                            </div>
+                
+                            <div class="detail">
+                                <h1 class="title">
+                                    <a href="{{ car.get_absolute_url }}">{{ car.car_title }}</a>
+                                </h1>
+                                <div class="location mb-3">
+                                    <i class="fa fa-map-marker"></i> {{ car.city }}, {{ car.get_state_display }}
+                                </div>
+                                
+                                <div class="facilities-list">
+                                    <ul>
+                                        <li><i class="fa fa-tachometer"></i> {{ car.milage }} km</li>
+                                        <li><i class="fa fa-calendar"></i> {{ car.year }}</li>
+                                        <li><i class="fa fa-cogs"></i> {{ car.transmission }}</li>
+                                        <li><i class="fa fa-road"></i> {{ car.body_style }}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                
+                            <div class="footer">
+                                <span class="price">{{ car.price }} PLN <small class="text-white">/ dzień</small></span>
+                                <a href="{{ car.get_absolute_url }}" class="btn btn-sm btn-theme">Szczegóły</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                        <div class="col-12">
+                            <div class="alert alert-dark text-center">Brak samochodów spełniających kryteria.</div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Paginacja (Opcjonalnie, jeśli używasz) -->
+                {% if is_paginated %}
+                <div class="pagination-box text-center mt-4">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-center">
+                            {% if page_obj.has_previous %}
+                                <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+                            {% endif %}
+                            <li class="page-item active"><a class="page-link" href="#">{{ page_obj.number }}</a></li>
+                            {% if page_obj.has_next %}
+                                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- PRAWA STRONA: WYSZUKIWARKA (SIDEBAR) -->
+            <div class="col-lg-4 col-md-12">
+                <div class="sidebar-right">
+                    <!-- Advanced search start -->
+                    <div class="widget advanced-search2">
+                        <h3 class="sidebar-title mb-4">Znajdź samochód</h3>
+                        
+                        <form method="GET" action="{% url 'cars_search' %}">
+                            <div class="form-group mb-3">
+                                <input type="text" class="form-control" name="q" placeholder="Szukaj..." value="{{ values.q }}">
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <input type="text" class="form-control" name="brand" placeholder="Marka" value="{{ values.brand }}">
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <input type="text" class="form-control" name="city" placeholder="Miasto" value="{{ values.city }}">
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <input type="text" class="form-control" name="fuel_type" placeholder="Paliwo" value="{{ values.fuel_type }}">
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <input type="number" class="form-control" name="year" placeholder="Rok" value="{{ values.year }}">
+                            </div>
+
+                            <div class="row">
+                                <div class="col-6 mb-3">
+                                    <input type="number" class="form-control" name="min_price" placeholder="Cena od" value="{{ values.min_price }}">
+                                </div>
+                                <div class="col-6 mb-3">
+                                    <input type="number" class="form-control" name="max_price" placeholder="Cena do" value="{{ values.max_price }}">
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-0">
+                                <button class="btn btn-theme w-100" type="submit">Szukaj</button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Featured car end -->
+
+{% endblock %}

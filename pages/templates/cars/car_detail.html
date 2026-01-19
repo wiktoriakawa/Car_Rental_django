@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<!-- sub banner -->
+<div class="sub-banner overview-bgi">
+    <div class="container breadcrumb-area">
+        <div class="breadcrumb-areas">
+            <h1>{{ car.car_title }}</h1>
+        </div>
+    </div>
+</div>
+
+<!-- car detail -->
+<div class="car-details-page content-area">
+    <div class="container">
+        <div class="row">
+
+            <!-- obrazek po lewej  -->
+            <div class="col-lg-8 col-md-12">
+                <div class="car-details-section">
+                    <div class="car-thumbnail mb-4">
+                        <img class="img-fluid w-100" src="{{ car.image.url }}" alt="{{ car.car_title }}">
+                    </div>
+
+                    <h3>Description</h3>
+                    <div class="mb-4">
+                        {{ car.description|safe }}
+                    </div>
+
+                    <h3>Features</h3>
+                    <ul class="list-unstyled row">
+                        {% for feature in car.features %}
+                            <li class="col-md-6 mb-2">
+                                <i class="fa fa-check text-success"></i>
+                                {{ feature }}
+                            </li>
+                        {% empty %}
+                            <li>No features listed.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <!-- informacje po prawej -->
+            <div class="col-lg-4 col-md-12">
+                <div class="sidebar-right">
+
+                    <div class="widget">
+                        <h3 class="sidebar-title">Car Information</h3>
+                        <ul class="list-unstyled">
+                            <li><strong>Price:</strong> {{ car.price }} PLN</li>
+                            <li><strong>Brand:</strong> {{ car.brand }}</li>
+                            <li><strong>Year:</strong> {{ car.year }}</li>
+                            <li><strong>Fuel:</strong> {{ car.fuel_type }}</li>
+                            <li><strong>Transmission:</strong> {{ car.transmission }}</li>
+                            <li><strong>Engine:</strong> {{ car.engine }}</li>
+                            <li><strong>Mileage:</strong> {{ car.milage }} km</li>
+                            <li><strong>Body style:</strong> {{ car.body_style }}</li>
+                            <li><strong>Doors:</strong> {{ car.doors }}</li>
+                            <li><strong>Passengers:</strong> {{ car.passengers }}</li>
+                            <li><strong>Interior:</strong> {{ car.interior }}</li>
+                            <li><strong>City:</strong> {{ car.city }}</li>
+                            <li><strong>Location:</strong> {{ car.get_state_display }}</li>
+                            <li><strong>Condition:</strong> {{ car.condition }}</li>
+                        </ul>
+                    </div>
+
+                    <div class="widget mt-4">
+                        <h3 class="sidebar-title">Rent this car</h3>
+
+                        <form method="post" action="{% url 'book_car' car.id %}">
+                            {% csrf_token %}
+
+                            <div class="form-group mb-3">
+                                <label>From</label>
+                                <input type="date"
+                                    name="start_date"
+                                    class="form-control"
+                                    required>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label>To</label>
+                                <input type="date"
+                                    name="end_date"
+                                    class="form-control"
+                                    required>
+                            </div>
+
+                            <button type="submit" class="btn btn-theme btn-block">
+                                Rent for {{ car.price }} PLN / day
+                            </button>
+                        </form>
+                    </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- end -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // dzisiejsza data w formacie YYYY-MM-DD
+        var today = new Date().toISOString().split('T')[0];
+        
+        // pola input
+        var startDateInput = document.getElementsByName("start_date")[0];
+        var endDateInput = document.getElementsByName("end_date")[0];
+
+        // dzisiaj mamy min 
+        if (startDateInput) {
+            startDateInput.setAttribute('min', today);
+            
+            // data końcowa nie może być wcześniejsza niż początkowa
+            startDateInput.addEventListener('change', function() {
+                endDateInput.setAttribute('min', this.value);
+            });
+        }
+        
+        if (endDateInput) {
+            endDateInput.setAttribute('min', today);
+        }
+    });
+</script>
+
+{% endblock %}

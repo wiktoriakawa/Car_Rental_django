@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-5 mb-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-7">
+
+      <!--  -->
+      <div class="card no-anim-card">
+        
+        <div class="card-header bg-dark border-bottom border-secondary">
+          <h3 class="text-white mb-0">Podsumowanie zwrotu</h3>
+        </div>
+
+        <div class="card-body p-4">
+
+          <!--  o samochodzie -->
+          <div class="d-flex align-items-center mb-4">
+             {% if booking.car.image %}
+                <img src="{{ booking.car.image.url }}" alt="Car" style="width: 100px; height: 60px; object-fit: cover; border-radius: 5px; margin-right: 20px;">
+             {% endif %}
+             <div>
+                 <h4 class="text-white mb-1">{{ booking.car.brand }} {{ booking.car.car_title }}</h4>
+                 <p class="rental-summary-label mb-0">Nr rezerwacji: #{{ booking.id }}</p>
+             </div>
+          </div>
+
+          <hr class="border-secondary">
+
+          <!-- szczegoly  -->
+          <div class="row mb-3">
+              <div class="col-md-6 mb-3">
+                  <span class="rental-summary-label d-block">Data rozpoczęcia:</span>
+                  <span class="rental-summary-text fw-bold">{{ booking.start_date }}</span>
+              </div>
+              <div class="col-md-6 mb-3">
+                  <span class="rental-summary-label d-block">Data zwrotu (Dziś):</span>
+                  <span class="rental-summary-text fw-bold">{% now "Y-m-d" %}</span>
+              </div>
+          </div>
+
+          <div class="row mb-3">
+              <div class="col-md-6">
+                  <span class="rental-summary-label d-block">Wykorzystane dni:</span>
+                  <span class="rental-summary-text">{{ days }} dni</span>
+              </div>
+              <div class="col-md-6">
+                  <span class="rental-summary-label d-block">Stawka dzienna:</span>
+                  <span class="rental-summary-text">{{ booking.car.price }} PLN</span>
+              </div>
+          </div>
+
+          <!-- cena -->
+          <div class="price-box-static">
+              <span class="rental-summary-label d-block mb-2">Całkowita kwota do zapłaty:</span>
+              <h1 class="text-white fw-bold mb-0" style="color: var(--secondary-color) !important;">
+                  {{ total }} PLN
+              </h1>
+          </div>
+
+          <!-- przyciski -->
+          <form method="post" action="{% url 'finish_rental_confirm' booking.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger btn-lg w-100 mb-3">
+              Zatwierdź zwrot i zapłać
+            </button>
+          </form>
+
+          <div class="text-center mt-2">
+              <a href="{% url 'profile' %}" class="cancel-link">
+                  &larr; Anuluj i wróć do profilu
+              </a>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}
