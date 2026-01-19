@@ -86,12 +86,12 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // --- 4. ANIMACJE REVEAL ON SCROLL ---
+    // animacja przy zjezdzaniu w dol
     const reveals = document.querySelectorAll(".reveal");
 
     const revealOnScroll = () => {
         const windowHeight = window.innerHeight;
-        const elementVisible = 100; // Jak daleko od dołu element ma się pojawić
+        const elementVisible = 100; 
 
         reveals.forEach((reveal) => {
             const elementTop = reveal.getBoundingClientRect().top;
@@ -101,9 +101,28 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     };
 
-    // Nasłuchiwanie scrolla
     window.addEventListener("scroll", revealOnScroll);
-    // Wywołanie raz na start (żeby pokazać górne elementy)
     revealOnScroll();
+
+// dzisiejsza data w formacie YYYY-MM-DD
+    var today = new Date().toISOString().split('T')[0];
+    
+    // pola input
+    var startDateInput = document.getElementsByName("start_date")[0];
+    var endDateInput = document.getElementsByName("end_date")[0];
+
+    // dzisiaj mamy min 
+    if (startDateInput) {
+        startDateInput.setAttribute('min', today);
+        
+        // data końcowa nie może być wcześniejsza niż początkowa
+        startDateInput.addEventListener('change', function() {
+            endDateInput.setAttribute('min', this.value);
+        });
+    }
+    
+    if (endDateInput) {
+        endDateInput.setAttribute('min', today);
+    }
 });
 

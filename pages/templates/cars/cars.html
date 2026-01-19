@@ -13,16 +13,16 @@
 </div>
 <!-- Sub Banner end -->
 
-<!-- Featured car start -->
+<!-- samochody start featured -->
 <div class="featured-car content-area">
     <div class="container">
         <div class="row">
             
-            <!-- LEWA STRONA: LISTA SAMOCHODÓW -->
+            <!-- lista samochodow -->
             <div class="col-lg-8 col-md-12">
                 <div class="row">
                     {% for car in cars %}
-                    <!-- Używamy col-md-6, żeby były dwa auta w rzędzie obok sidebara -->
+                    <!--  -->
                     <div class="col-lg-6 col-md-6"> 
                         <div class="car-box reveal">
                             <div class="car-thumbnail">
@@ -66,7 +66,7 @@
                     {% endfor %}
                 </div>
 
-                <!-- Paginacja (Opcjonalnie, jeśli używasz) -->
+                <!--  -->
                 {% if is_paginated %}
                 <div class="pagination-box text-center mt-4">
                     <nav aria-label="Page navigation">
@@ -84,10 +84,10 @@
                 {% endif %}
             </div>
 
-            <!-- PRAWA STRONA: WYSZUKIWARKA (SIDEBAR) -->
+            <!-- wyszukiwarka -->
             <div class="col-lg-4 col-md-12">
                 <div class="sidebar-right">
-                    <!-- Advanced search start -->
+                    <!-- wyszukwiannie start -->
                     <div class="widget advanced-search2">
                         <h3 class="sidebar-title mb-4">Znajdź samochód</h3>
                         
@@ -132,6 +132,6 @@
         </div>
     </div>
 </div>
-<!-- Featured car end -->
+<!-- end -->
 
 {% endblock %}
