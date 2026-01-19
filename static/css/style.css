@@ -414,16 +414,14 @@ label {
     }
 }
 
-/* --- ANIMACJE JS (Reveal on Scroll) --- */
+/* --- animacja js - scroll --- */
 
-/* Stan początkowy (ukryty i przesunięty w dół) */
 .reveal {
     opacity: 0;
-    transform: translateY(50px); /* Przesunięcie o 50px w dół */
-    transition: all 0.8s ease-out; /* Płynne przejście */
+    transform: translateY(50px); 
+    transition: all 0.8s ease-out; 
 }
 
-/* Stan aktywny (widoczny) */
 .reveal.active {
     opacity: 1;
     transform: translateY(0);
