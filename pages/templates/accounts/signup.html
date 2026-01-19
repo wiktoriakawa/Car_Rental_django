@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<!-- Sub banner -->
+<div class="sub-banner overview-bgi">
+    <div class="container breadcrumb-area">
+        <div class="breadcrumb-areas">
+            <h1>Rejestracja</h1>
+        </div>
+    </div>
+</div>
+
+<!-- zarejestruj sie -->
+<div class="contact-section mt-5 mb-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                
+                <div class="form-section">
+                    <div class="text-center">
+                        <h3>Utwórz konto</h3>
+                    </div>
+
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-danger">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <form method="POST" action="" novalidate>
+                        {% csrf_token %}
+
+                        <div class="form-group mb-3">
+                            <label class="mb-1">Nazwa użytkownika</label>
+                            <input type="text" name="username" class="form-control" placeholder="Login" required>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label class="mb-1">Adres Email</label>
+                            <input type="email" name="email" class="form-control" placeholder="Email" required>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label class="mb-1">Hasło</label>
+                            <input type="password" name="password1" class="form-control" placeholder="Hasło" required>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <label class="mb-1">Powtórz hasło</label>
+                            <input type="password" name="password2" class="form-control" placeholder="Powtórz hasło" required>
+                        </div>
+
+                        <div class="form-group mb-0">
+                            <button type="submit" class="btn btn-theme w-100 btn-lg text-white">
+                                Zarejestruj się
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <div class="text-center mt-3">
+                        <p class="text-muted">Masz już konto? <a href="{% url 'login' %}"> Zaloguj się tutaj</a></p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
